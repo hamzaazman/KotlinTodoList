@@ -7,9 +7,9 @@ To-do List app that i developed in the Kotlin android learning process. It basic
 <table>
   <tr>
      <td align="center">Todo Empty</td>
-     <td align="center">Add</td>
-     <td align="center">Edit</td>
-     <td align="center">Delete</td>
+     <td align="center">Add Note</td>
+     <td align="center">Edit Note</td>
+     <td align="center">Delete Note</td>
   </tr>
   <tr>
     <td valign="top"><img src="https://user-images.githubusercontent.com/60855026/176445497-8528b213-1683-451c-8a14-d1d278ab4218.jpg" height="400" width="200"></td>
