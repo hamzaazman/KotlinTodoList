@@ -11,5 +11,5 @@ data class Note(
     @ColumnInfo(name = "title")
     var title: String,
     @ColumnInfo(name = "description")
-    var description: String,
+    var description: String?,
 )

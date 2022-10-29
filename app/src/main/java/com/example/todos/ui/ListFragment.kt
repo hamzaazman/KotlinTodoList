@@ -20,9 +20,11 @@ class ListFragment : Fragment() {
             (activity?.application as NoteApplication).database.noteDao()
         )
     }
+
     private var _binding: FragmentListBinding? = null
     private val binding get() = _binding!!
     private var isLinearLayoutManager = false
+    private lateinit var noteAdapter: NoteAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,21 +38,17 @@ class ListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
 
+        setupRV()
+        observeNotes()
 
         binding.fabAdd.setOnClickListener {
-            val action = ListFragmentDirections.actionListFragmentToAddFragment()
+           val action = ListFragmentDirections.actionListFragmentToAddFragment()
             findNavController().navigate(action)
         }
 
-        val adapter = NoteAdapter {
-            val action =
-                ListFragmentDirections.actionListFragmentToUpdateFragment(it.noteId)
-            findNavController().navigate(action)
-        }
-        binding.recyclerView.adapter = adapter
-        binding.recyclerView.layoutManager =
-            StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+    }
 
+    private fun observeNotes() {
         viewModel.allNotes.observe(this.viewLifecycleOwner) { notes ->
             if (notes.isEmpty()) {
                 binding.recyclerView.visibility = View.GONE
@@ -59,12 +57,21 @@ class ListFragment : Fragment() {
                 binding.recyclerView.visibility = View.VISIBLE
                 binding.emptyMessage.visibility = View.GONE
                 notes.let {
-                    adapter.submitList(it)
+                    noteAdapter.submitList(it)
                 }
             }
         }
+    }
 
-        
+    private fun setupRV() {
+        noteAdapter = NoteAdapter {
+            val action = ListFragmentDirections.actionListFragmentToUpdateFragment(it.noteId)
+            findNavController().navigate(action)
+        }
+        binding.recyclerView.adapter = noteAdapter
+        binding.recyclerView.layoutManager =
+            StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

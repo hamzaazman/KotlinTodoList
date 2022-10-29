@@ -5,20 +5,19 @@ import com.example.todos.data.NoteDao
 import com.example.todos.model.Note
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.util.concurrent.Flow
 
 class NoteViewModel(private val noteDao: NoteDao) : ViewModel() {
 
     val allNotes: LiveData<List<Note>> = noteDao.getNotes().asLiveData()
 
-    fun isNoteEmpty(title: String, description: String): Boolean {
-        if (title.isBlank() || description.isBlank()) {
+    fun isNoteEmpty(title: String, description: String?): Boolean {
+        if (title.isBlank()) {
             return false
         }
         return true
     }
 
-    fun addNewNote(id: Long = 0, title: String, description: String) {
+    fun addNewNote(id: Long = 0, title: String, description: String?) {
         val newNote = Note(id, title, description)
         insertNote(newNote)
     }
@@ -29,14 +28,13 @@ class NoteViewModel(private val noteDao: NoteDao) : ViewModel() {
         }
     }
 
+
     fun getNoteById(id: Long): LiveData<Note> {
         return noteDao.getItem(id).asLiveData()
     }
 
     fun updateNote(
-        id: Long,
-        title: String,
-        description: String
+        id: Long, title: String, description: String
     ) {
         viewModelScope.launch(Dispatchers.IO) {
             noteDao.updateNote(id, title, description)
@@ -52,8 +50,7 @@ class NoteViewModel(private val noteDao: NoteDao) : ViewModel() {
     class NoteViewModelFactory(private val noteDao: NoteDao) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(NoteViewModel::class.java)) {
-                @Suppress("UNCHECKED_CAST")
-                return NoteViewModel(noteDao) as T
+                @Suppress("UNCHECKED_CAST") return NoteViewModel(noteDao) as T
             }
             throw IllegalArgumentException("Unknown ViewModel class")
         }

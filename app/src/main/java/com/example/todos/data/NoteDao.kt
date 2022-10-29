@@ -8,10 +8,10 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface NoteDao {
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(note: Note)
 
-    @Query("SELECT * FROM note_table ORDER BY title ASC")
+    @Query("SELECT * FROM note_table ORDER BY noteId ASC")
     fun getNotes(): Flow<List<Note>>
 
     @Query("SELECT * from note_table WHERE noteId = :id")
