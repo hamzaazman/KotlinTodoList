@@ -1,17 +1,17 @@
 package com.example.todos.ui
 
 import android.app.AlertDialog
-import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
-import android.view.*
-import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.todos.NoteApplication
-import com.example.todos.R
 import com.example.todos.databinding.FragmentEditBinding
 import com.example.todos.model.Note
 import com.example.todos.viewModel.NoteViewModel
@@ -28,8 +28,7 @@ class EditFragment : Fragment() {
     private val args: EditFragmentArgs by navArgs()
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentEditBinding.inflate(inflater, container, false)
         setHasOptionsMenu(true)
@@ -43,6 +42,10 @@ class EditFragment : Fragment() {
         viewModel.getNoteById(id).observe(viewLifecycleOwner) { selectedNote ->
             note = selectedNote
             bind(note)
+        }
+        binding.editFab.setOnClickListener {
+            updateNote()
+            findNavController().popBackStack()
         }
 
     }
@@ -62,36 +65,13 @@ class EditFragment : Fragment() {
         )
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.menu_update, menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.updateNote -> {
-                updateNote()
-                findNavController().popBackStack()
-                true
-            }
-            R.id.deleteNote -> {
-                deleteDialog(args.id)
-                true
-            }
-            else -> {
-                return super.onOptionsItemSelected(item)
-            }
-        }
-    }
 
     private fun deleteDialog(id: Long) {
-        AlertDialog.Builder(requireContext())
-            .setMessage("Do you want to delete note?")
+        AlertDialog.Builder(requireContext()).setMessage("Do you want to delete note?")
             .setPositiveButton("Yes", DialogInterface.OnClickListener { _, _ ->
                 viewModel.deleteNote(id)
                 findNavController().popBackStack()
-            })
-            .setNegativeButton("No", DialogInterface.OnClickListener { dialogInterface, _ ->
+            }).setNegativeButton("No", DialogInterface.OnClickListener { dialogInterface, _ ->
                 dialogInterface.cancel()
             }).show()
     }
