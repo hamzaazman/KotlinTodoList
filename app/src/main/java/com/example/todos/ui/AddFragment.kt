@@ -9,15 +9,9 @@ import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.todos.NoteApplication
-import com.example.todos.R
 import com.example.todos.databinding.FragmentAddBinding
-import com.example.todos.model.Note
-import com.example.todos.util.setCustomBackground
 import com.example.todos.viewModel.NoteViewModel
-import com.skydoves.powerspinner.IconSpinnerAdapter
-import com.skydoves.powerspinner.IconSpinnerItem
 
 
 class AddFragment : Fragment() {
@@ -33,42 +27,14 @@ class AddFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentAddBinding.inflate(inflater, container, false)
+        setHasOptionsMenu(true)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         binding.saveFab.setOnClickListener {
             addNote()
-        }
-
-        resources.getStringArray(R.array.priority_list).forEach {
-            println(it)
-
-        }
-
-        binding.spinnerPriority.apply {
-            setSpinnerAdapter(IconSpinnerAdapter(this))
-            setItems(
-                arrayListOf(
-                    IconSpinnerItem(text = "LOW"),
-                    IconSpinnerItem(text = "MEDIUM"),
-                    IconSpinnerItem(text = "HIGH")
-                )
-            )
-            getSpinnerRecyclerView().layoutManager = LinearLayoutManager(context)
-
-            setOnSpinnerItemSelectedListener { oldIndex, oldItem: IconSpinnerItem?, newIndex, newItem: IconSpinnerItem? ->
-                setCustomBackground(requireContext())
-            }
-
-            setOnClickListener {
-                showOrDismiss()
-                setCustomBackground(requireContext())
-            }
-
-            lifecycleOwner = this@AddFragment
         }
     }
 
@@ -80,15 +46,9 @@ class AddFragment : Fragment() {
 
     private fun addNote() {
         if (isNoteValid()) {
-            with(binding) {
-                val newNote = Note(
-                    noteId = 0,
-                    title = etTitle.text.toString(),
-                    description = etDescription.text.toString(),
-                    priority = spinnerPriority.text.toString()
-                )
-                viewModel.addNewNote(newNote)
-            }
+            viewModel.addNewNote(
+                id = 0, binding.etTitle.text.toString(), binding.etDescription.text.toString()
+            )
 
             findNavController().popBackStack()
         }
