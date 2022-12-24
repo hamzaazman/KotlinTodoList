@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.todos.NoteApplication
 import com.example.todos.adapters.NoteAdapter
 import com.example.todos.databinding.FragmentListBinding
@@ -47,16 +46,19 @@ class ListFragment : Fragment() {
 
     private fun observeNotes() {
         viewModel.allNotes.observe(this.viewLifecycleOwner) { notes ->
-            if (notes.isEmpty()) {
-                binding.recyclerView.visibility = View.GONE
-                binding.emptyMessage.visibility = View.VISIBLE
-            } else {
-                binding.recyclerView.visibility = View.VISIBLE
-                binding.emptyMessage.visibility = View.GONE
-                notes.let {
-                    noteAdapter.submitList(it)
+            with(binding) {
+                if (notes.isEmpty()) {
+                    recyclerView.visibility = View.GONE
+                    lottieEmptyList.visibility = View.VISIBLE
+                } else {
+                    recyclerView.visibility = View.VISIBLE
+                    lottieEmptyList.visibility = View.GONE
+                    notes.let {
+                        noteAdapter.submitList(it)
+                    }
                 }
             }
+
         }
     }
 
@@ -66,10 +68,7 @@ class ListFragment : Fragment() {
             findNavController().navigate(action)
         }
         binding.recyclerView.adapter = noteAdapter
-        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
-
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()
