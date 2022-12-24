@@ -3,6 +3,7 @@ package com.example.todos.viewModel
 import androidx.lifecycle.*
 import com.example.todos.data.NoteDao
 import com.example.todos.model.Note
+import com.example.todos.model.Priority
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -17,9 +18,22 @@ class NoteViewModel(private val noteDao: NoteDao) : ViewModel() {
         return true
     }
 
-    fun addNewNote(id: Long = 0, title: String, description: String?) {
-        val newNote = Note(id, title, description)
-        insertNote(newNote)
+    fun fromPriority(priority: String): Priority {
+        return when (priority) {
+            "HIGH" -> Priority.HIGH
+            "MEDIUM" -> Priority.MEDIUM
+            "LOW" -> Priority.LOW
+            else -> {
+                Priority.LOW
+            }
+        }
+    }
+
+    fun addNewNote(note: Note) {
+        //val newNote =
+        //  Note(noteId = id, title = title, description = description, priority = priority)
+
+        insertNote(note)
     }
 
     private fun insertNote(note: Note) {
@@ -34,10 +48,10 @@ class NoteViewModel(private val noteDao: NoteDao) : ViewModel() {
     }
 
     fun updateNote(
-        id: Long, title: String, description: String
+        id: Long, title: String, description: String, priority: String
     ) {
         viewModelScope.launch(Dispatchers.IO) {
-            noteDao.updateNote(id, title, description)
+            noteDao.updateNote(id, title, description, priority)
         }
     }
 
