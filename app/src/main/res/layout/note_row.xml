@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="4dp"
-    android:elevation="16dp"
+    android:elevation="8dp"
     app:cardCornerRadius="4dp">
 
     <LinearLayout
@@ -25,10 +25,10 @@
             android:id="@+id/twDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:maxLines="5"
-            android:ellipsize="end"
-            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
             android:layout_marginTop="4dp"
+            android:ellipsize="end"
+            android:maxLines="5"
+            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
             tools:text="Description" />
     </LinearLayout>
 

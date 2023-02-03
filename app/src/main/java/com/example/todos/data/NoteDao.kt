@@ -1,6 +1,5 @@
 package com.example.todos.data
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.example.todos.model.Note
 import kotlinx.coroutines.flow.Flow
@@ -11,7 +10,7 @@ interface NoteDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(note: Note)
 
-    @Query("SELECT * FROM note_table ORDER BY noteId ASC")
+    @Query("SELECT * FROM note_table ORDER BY noteId DESC")
     fun getNotes(): Flow<List<Note>>
 
     @Query("SELECT * from note_table WHERE noteId = :id")

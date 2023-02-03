@@ -9,14 +9,6 @@
         android:title="Delete Note"
         android:visible="true"
         app:showAsAction="ifRoom" />
-
-    <item
-        android:id="@+id/updateNote"
-        android:icon="@drawable/ic_check"
-        app:iconTint="@color/white"
-        android:title="Update Note"
-        android:visible="true"
-        app:showAsAction="ifRoom" />
-
+    
 
 </menu>
