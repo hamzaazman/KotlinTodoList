@@ -4,11 +4,13 @@ import androidx.lifecycle.*
 import com.example.todos.data.NoteDao
 import com.example.todos.model.Note
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
 class NoteViewModel(private val noteDao: NoteDao) : ViewModel() {
 
     val allNotes: LiveData<List<Note>> = noteDao.getNotes().asLiveData()
+    fun getNotes(): Flow<List<Note>> = noteDao.getNotes()
 
     fun isNoteEmpty(title: String, description: String?): Boolean {
         if (title.isBlank()) {

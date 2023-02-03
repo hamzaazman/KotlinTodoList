@@ -8,7 +8,6 @@ import androidx.room.TypeConverters
 import com.example.todos.model.Note
 
 @Database(entities = [Note::class], version = 2, exportSchema = false)
-@TypeConverters(Converter::class)
 abstract class NoteDatabase : RoomDatabase() {
     abstract fun noteDao(): NoteDao
 

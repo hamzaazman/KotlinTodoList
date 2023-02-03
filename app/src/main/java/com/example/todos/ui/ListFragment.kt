@@ -6,11 +6,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.todos.NoteApplication
 import com.example.todos.adapters.NoteAdapter
 import com.example.todos.databinding.FragmentListBinding
 import com.example.todos.viewModel.NoteViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.launch
 
 class ListFragment : Fragment() {
     private val viewModel: NoteViewModel by activityViewModels {
@@ -45,21 +51,27 @@ class ListFragment : Fragment() {
     }
 
     private fun observeNotes() {
-        viewModel.allNotes.observe(this.viewLifecycleOwner) { notes ->
-            with(binding) {
-                if (notes.isEmpty()) {
-                    recyclerView.visibility = View.GONE
-                    lottieEmptyList.visibility = View.VISIBLE
-                } else {
-                    recyclerView.visibility = View.VISIBLE
-                    lottieEmptyList.visibility = View.GONE
-                    notes.let {
-                        noteAdapter.submitList(it)
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.getNotes()
+                    .flowOn(Dispatchers.IO)
+                    .collect {
+                        with(binding) {
+                            if (it.isEmpty()) {
+                                recyclerView.visibility = View.GONE
+                                lottieEmptyList.visibility = View.VISIBLE
+                            } else {
+                                recyclerView.visibility = View.VISIBLE
+                                lottieEmptyList.visibility = View.GONE
+                                it.let {
+                                    noteAdapter.submitList(it)
+                                }
+                            }
+                        }
                     }
-                }
             }
-
         }
+
     }
 
     private fun setupRV() {

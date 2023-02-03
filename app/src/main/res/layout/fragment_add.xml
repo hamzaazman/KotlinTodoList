@@ -50,33 +50,9 @@
                 android:gravity="start"
                 android:hint="Description"
                 android:inputType="textMultiLine"
-                android:lines="5" />
+                android:lines="10" />
 
         </com.google.android.material.textfield.TextInputLayout>
-
-        <!-- DrowDown Priority Menu -->
-        <com.skydoves.powerspinner.PowerSpinnerView
-            android:id="@+id/spinnerPriority"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/custom_spinner_selector"
-            android:gravity="center"
-            android:hint="Priority"
-            android:padding="10dp"
-            android:textSize="14.5sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/etDescriptionLayout"
-            app:spinner_arrow_gravity="start"
-            app:spinner_arrow_padding="8dp"
-            app:spinner_arrow_tint="@color/primaryDarkColor"
-            app:spinner_divider_size="0.4dp"
-            app:spinner_item_array="@array/priority_list"
-            app:spinner_item_height="46dp"
-            app:spinner_popup_animation="dropdown"
-            app:spinner_popup_background="@drawable/custom_spinner_shape"
-            app:spinner_popup_elevation="14dp" />
 
         <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
             android:id="@+id/saveFab"

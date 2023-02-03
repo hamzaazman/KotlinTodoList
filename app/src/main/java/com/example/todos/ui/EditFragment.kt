@@ -47,6 +47,9 @@ class EditFragment : Fragment() {
             updateNote()
             findNavController().popBackStack()
         }
+        binding.removeFab.setOnClickListener {
+            deleteDialog(id)
+        }
 
     }
 
@@ -78,6 +81,7 @@ class EditFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        updateNote()
         _binding = null
     }
 }

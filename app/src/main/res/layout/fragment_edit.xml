@@ -12,42 +12,71 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <EditText
-            android:id="@+id/etTitle"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/etTitleLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="@android:color/transparent"
-            android:hint="Title"
-            android:inputType="text"
-            android:lines="1"
-            android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
+            app:hintAnimationEnabled="false"
+            app:hintEnabled="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
 
-        <EditText
-            android:id="@+id/etDescription"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Title" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/etDescriptionLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="@android:color/transparent"
-            android:gravity="start"
-            android:hint="Description"
-            android:inputType="textMultiLine"
-            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+            android:layout_marginTop="8dp"
+            app:hintAnimationEnabled="false"
+            app:hintEnabled="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/etTitle" />
+            app:layout_constraintTop_toBottomOf="@+id/etTitleLayout">
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:hint="Description"
+                android:inputType="textMultiLine"
+                android:lines="10" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
             android:id="@+id/editFab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
             android:adjustViewBounds="true"
             android:focusable="true"
-            android:src="@drawable/ic_edit"
+            android:text="Save Changes"
             app:fabSize="normal"
+            app:icon="@drawable/ic_update"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/removeFab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:adjustViewBounds="true"
+            android:focusable="true"
+            app:fabSize="normal"
+            app:icon="@drawable/ic_delete"
+            app:layout_constraintBottom_toTopOf="@id/editFab"
             app:layout_constraintEnd_toEndOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
